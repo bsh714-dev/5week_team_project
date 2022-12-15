@@ -1,9 +1,8 @@
-// services/posts.services.js
-
 const PostRepository = require("../repository/posts.repository");
+const { posts } = require("../models");
 
 class PostService {
-  postRepository = new PostRepository();
+  postRepository = new PostRepository(posts);
 
   findAllPost = async () => {
     const allPost = await this.postRepository.findAllPost();
@@ -46,7 +45,7 @@ class PostService {
     );
 
     return {
-      postId: createPostData.userId,
+      userId: createPostData.userId,
       nickname: createPostData.nickname,
       title: createPostData.title,
       content: createPostData.content,
@@ -61,15 +60,13 @@ class PostService {
 
     await this.postRepository.updatePost(postId, title, content);
 
-    const updatePost = await this.postRepository.findPostById(postId);
-
     return {
-      postId: updatePost.postId,
-      nickname: updatePost.nickname,
-      title: updatePost.title,
-      content: updatePost.content,
-      createdAt: updatePost.createdAt,
-      updatedAt: updatePost.updatedAt,
+      postId: findPost.postId,
+      nickname: findPost.nickname,
+      title: findPost.title,
+      content: findPost.content,
+      createdAt: findPost.createdAt,
+      updatedAt: findPost.updatedAt,
     };
   };
 

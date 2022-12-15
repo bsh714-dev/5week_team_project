@@ -1,19 +1,20 @@
-const { posts } = require("../models");
-
 class PostRepository {
+  constructor(postsModel) {
+    this.postsModel = postsModel;
+  }
   findAllPost = async () => {
-    const Posts = await posts.findAll();
+    const Posts = await this.postsModel.findAll();
     return Posts;
   };
 
   findPostById = async (postId) => {
-    const Post = await posts.findByPk(postId);
+    const Post = await this.postsModel.findByPk(postId);
 
     return Post;
   };
 
   createPost = async (userId, nickname, title, content) => {
-    const createPostData = await posts.create({
+    const createPostData = await this.postsModel.create({
       userId,
       nickname,
       title,
@@ -24,7 +25,7 @@ class PostRepository {
   };
 
   updatePost = async (postId, title, content) => {
-    const updatePostData = await posts.update(
+    const updatePostData = await this.postsModel.update(
       { title, content },
       { where: { postId } }
     );
@@ -33,9 +34,9 @@ class PostRepository {
   };
 
   deletePost = async (postId) => {
-    const updatePostData = await posts.destroy({ where: { postId } });
+    const deletePostData = await this.postsModel.destroy({ where: { postId } });
 
-    return updatePostData;
+    return deletePostData;
   };
 }
 
